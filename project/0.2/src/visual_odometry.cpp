@@ -182,6 +182,8 @@ void VisualOdometry::poseEstimationPnP()
         SO3(rvec.at<double>(0,0), rvec.at<double>(1,0), rvec.at<double>(2,0)), 
         Vector3d( tvec.at<double>(0,0), tvec.at<double>(1,0), tvec.at<double>(2,0))
     );
+
+
 }
 
 bool VisualOdometry::checkEstimatedPose()
@@ -194,6 +196,11 @@ bool VisualOdometry::checkEstimatedPose()
     }
     // if the motion is too large, it is probably wrong
     Sophus::Vector6d d = T_c_r_estimated_.log();
+    Eigen::Vector3d t = T_c_r_estimated_.translation();
+    std::cout << "Translation:\n" << t.transpose() << std::endl;
+    Eigen::Matrix3d R = T_c_r_estimated_.rotation_matrix();
+    std::cout << "Rotation matrix:\n" << R << std::endl;
+    std::cout << "T_c_r_estimated_.log() " << d << std::endl;
     if ( d.norm() > 5.0 )
     {
         cout<<"reject because motion is too large: "<<d.norm()<<endl;

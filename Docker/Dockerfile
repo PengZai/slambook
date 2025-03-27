@@ -14,7 +14,7 @@ RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security ma
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 &&\
     apt update
 
-RUN apt-get remove qtdeclarative5-dev qt5-qmake libeigen3-dev
+RUN apt-get remove qt5-qmake libeigen3-dev qtdeclarative5-dev
 
 
 
@@ -179,6 +179,7 @@ RUN set -x && \
     -DBUILD_UNITTESTS=OFF \
 #    -DG2O_USE_OPENGL=OFF \
 #    -DG2O_USE_OPENMP=ON \
+	-DBUILD_WITH_MARCH_NATIVE=ON \
     -DG2O_BUILD_APPS=OFF \
     -DG2O_BUILD_EXAMPLES=OFF \
     -DG2O_BUILD_LINKED_APPS=OFF \
@@ -189,7 +190,7 @@ RUN set -x && \
 ENV g2o_DIR=${CMAKE_INSTALL_PREFIX}/lib/cmake/g2o
 
 # build ceres-solver
-WORKDIR ${EXTERNAL_LIBRARY}/ceres-solver-2.2.0
+WORKDIR ${EXTERNAL_LIBRARY}/ceres-solver-1.14.0
 RUN set -x && \
 	mkdir -p build && \
 	cd build && \
