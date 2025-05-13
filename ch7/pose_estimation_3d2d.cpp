@@ -1,4 +1,6 @@
 #include <iostream>
+#include <Eigen/Core>               
+#include <opencv2/core/eigen.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -12,9 +14,16 @@
 #include <g2o/solvers/csparse/linear_solver_csparse.h>
 #include <g2o/types/sba/types_six_dof_expmap.h>
 #include <chrono>
+#include <sophus/se3.h>
+#include <sophus/so3.h>
+
 
 using namespace std;
 using namespace cv;
+
+using Sophus::SO3;
+using Sophus::SE3;
+
 
 void find_feature_matches (
     const Mat& img_1, const Mat& img_2,
@@ -67,12 +76,46 @@ int main ( int argc, char** argv )
     cout<<"3d-2d pairs: "<<pts_3d.size() <<endl;
 
     Mat r, t;
-    solvePnP ( pts_3d, pts_2d, K, Mat(), r, t, false ); // 调用OpenCV 的 PnP 求解，可选择EPNP，DLS等方法
+    cv::Mat inliers;
+
+    // solvePnP ( pts_3d, pts_2d, K, Mat(), r, t, false ); // 调用OpenCV 的 PnP 求解，可选择EPNP，DLS等方法
+    bool success = cv::solvePnPRansac(
+        pts_3d,                 // std::vector<cv::Point3d>
+        pts_2d,                  // std::vector<cv::Point2d>
+        K,                       // Intrinsic matrix
+        Mat(),       // Distortion coefficients
+        r,                          // Output: rotation vector
+        t,                          // Output: translation vector
+        false,                         // Use extrinsic guess? Usually false
+        100,                           // RANSAC iterations
+        4.0,                           // Reprojection error threshold (pixels)
+        0.99,                          // Confidence
+        inliers                       // Output: inlier indices
+        );
+
+    std::cout << "inliers.rows " << inliers.rows << std::endl;
+
     Mat R;
     cv::Rodrigues ( r, R ); // r为旋转向量形式，用Rodrigues公式转换为矩阵
 
     cout<<"R="<<endl<<R<<endl;
     cout<<"t="<<endl<<t<<endl;
+
+    Eigen::Matrix<double, 3, 3> estimated_rotation;
+    Eigen::Vector3d estimated_position;
+
+    cv::cv2eigen(R, estimated_rotation);
+    cv::cv2eigen(t, estimated_position);
+
+    SE3 estimated_T_current_cam_previous_cam = SE3(
+        SO3(estimated_rotation), estimated_position
+    );
+
+    Sophus::Vector6d d = estimated_T_current_cam_previous_cam.log();
+    double norm = d.norm();
+
+    std::cout << "norm: " << norm << std::endl;
+    std::cout << "end" << std::endl;
 
     cout<<"calling bundle adjustment"<<endl;
 

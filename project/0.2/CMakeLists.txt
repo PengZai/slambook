@@ -2,8 +2,11 @@ cmake_minimum_required( VERSION 2.8 )
 project ( myslam )
 
 set( CMAKE_CXX_COMPILER "g++" )
-set( CMAKE_BUILD_TYPE "Release" )
-set( CMAKE_CXX_FLAGS "-std=c++11 -O3" )
+set( CMAKE_BUILD_TYPE "Debug" )
+set( CMAKE_CXX_FLAGS "-std=c++11" )
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fsee -fomit-frame-pointer -fno-signed-zeros -fno-math-errno -funroll-loops")
+set(CMAKE_CXX_FLAGS_DEBUG "-g3 -Wall -Wuninitialized -fno-omit-frame-pointer")
+
 
 list( APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules )
 set( EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin )

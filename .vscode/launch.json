@@ -5,13 +5,84 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) Attach",
+            "name": "pose_estimation_2d2d",
             "type": "cppdbg",
-            "request": "attach",
+            "request": "launch",
+            "program": "${workspaceFolder}/ch7/build/pose_estimation_2d2d",
+            // "args": ["${workspaceFolder}/ch7/figures/1305031454.259627.png", "${workspaceFolder}/ch7/figures/1305031454.291639.png"],
+            // "args": ["${workspaceFolder}/ch7/figures/1305031454.259627.png", "${workspaceFolder}/ch7/figures/1305031454.327699.png"],
+            "args": ["${workspaceFolder}/ch7/figures/1305031454.259627.png", "${workspaceFolder}/ch7/figures/1305031454.359636.png"],
+            // "args": ["${workspaceFolder}/ch7/figures/1305031454.259627.png", "${workspaceFolder}/ch7/figures/1305031455.059636.png"],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb"
+        },
+        {
+            "name": "pose_estimation_3d2d",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/ch7/build/pose_estimation_3d2d",
+            // "args": ["${workspaceFolder}/ch7/figures/1305031454.259627.png", "${workspaceFolder}/ch7/figures/1305031454.291639.png", "${workspaceFolder}/ch7/depthes/1305031454.273489.png", "${workspaceFolder}/ch7/depthes/1305031454.304744.png"],
+            // "args": ["${workspaceFolder}/ch7/figures/1305031454.259627.png", "${workspaceFolder}/ch7/figures/1305031454.327699.png", "${workspaceFolder}/ch7/depthes/1305031454.273489.png", "${workspaceFolder}/ch7/depthes/1305031454.340806.png"],
+            "args": ["${workspaceFolder}/ch7/figures/1305031454.259627.png", "${workspaceFolder}/ch7/figures/1305031454.359636.png", "${workspaceFolder}/ch7/depthes/1305031454.273489.png", "${workspaceFolder}/ch7/depthes/1305031454.372652.png"],
+            // "args": ["${workspaceFolder}/ch7/figures/1305031454.259627.png", "${workspaceFolder}/ch7/figures/1305031454.391677.png", "${workspaceFolder}/ch7/depthes/1305031454.273489.png", "${workspaceFolder}/ch7/depthes/1305031454.401962.png"],
+            // "args": ["${workspaceFolder}/ch7/figures/1305031454.259627.png", "${workspaceFolder}/ch7/figures/1305031454.427465.png", "${workspaceFolder}/ch7/depthes/1305031454.273489.png", "${workspaceFolder}/ch7/depthes/1305031454.437248.png"],
+            // "args": ["${workspaceFolder}/ch7/figures/1305031454.259627.png", "${workspaceFolder}/ch7/figures/1305031454.459913.png", "${workspaceFolder}/ch7/depthes/1305031454.273489.png", "${workspaceFolder}/ch7/depthes/1305031454.470741.png"],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb"
+        },
+        {
+            "name": "project 0.2",
+            "type": "cppdbg",
+            "request": "launch",
             "program": "${workspaceFolder}/project/0.2/bin/run_vo",
+            "args": ["${workspaceFolder}/project/0.2/config/default.yaml"],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
             "MIMode": "gdb",
-            "args":["${workspaceFolder}/project/0.2/config/default.yaml"]
+            
+        },
+        {
+            "name": "ch8 direct_sparse_for_botanic_garden",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/ch8/directMethod/build/direct_sparse_for_botanic_garden",
+            "args": [
+                "/root/datasets2/BotanicGarden/1018-00/1018_00_img10hz600p/left_rgb",
+                "/root/datasets2/BotanicGarden/1018-00/1018_00_img10hz600p/FoundationStereoDepth/depth",
+                "200"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            
         }
 
+        {
+            "name": "ch8 direct_semidense_for_botanic_garden",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/ch8/directMethod/build/direct_sparse_for_botanic_garden",
+            "args": [
+                "/root/datasets2/BotanicGarden/1018-00/1018_00_img10hz600p/left_rgb",
+                "/root/datasets2/BotanicGarden/1018-00/1018_00_img10hz600p/FoundationStereoDepth/depth",
+                "200"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            
+        }
     ]
 }

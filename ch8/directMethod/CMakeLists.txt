@@ -1,7 +1,7 @@
 cmake_minimum_required( VERSION 2.8 )
 project( directMethod )
 
-set( CMAKE_BUILD_TYPE Release )
+set( CMAKE_BUILD_TYPE Debug )
 set( CMAKE_CXX_FLAGS "-std=c++11 -O3" )
 
 # 添加cmake模块路径
@@ -22,5 +22,12 @@ set( G2O_LIBS
 add_executable( direct_sparse direct_sparse.cpp )
 target_link_libraries( direct_sparse ${OpenCV_LIBS} ${G2O_LIBS} )
 
+add_executable( direct_sparse_for_botanic_garden direct_sparse_for_botanic_garden.cpp )
+target_link_libraries( direct_sparse_for_botanic_garden ${OpenCV_LIBS} ${G2O_LIBS} )
+
+
 add_executable( direct_semidense direct_semidense.cpp )
 target_link_libraries( direct_semidense ${OpenCV_LIBS} ${G2O_LIBS} )
+
+add_executable( direct_semidense_for_botanic_garden direct_semidense_for_botanic_garden.cpp )
+target_link_libraries( direct_semidense_for_botanic_garden ${OpenCV_LIBS} ${G2O_LIBS} )

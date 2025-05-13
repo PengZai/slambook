@@ -1,11 +1,17 @@
 #include <iostream>
+#include <Eigen/Core>               
+#include <opencv2/core/eigen.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/calib3d/calib3d.hpp>
+#include <sophus/se3.h>
+#include <sophus/so3.h>
 // #include "extra.h" // use this if in OpenCV2 
 using namespace std;
 using namespace cv;
+using Sophus::SO3;
+using Sophus::SE3;
 
 /****************************************************
  * 本程序演示了如何使用2D-2D的特征匹配估计相机运动
@@ -45,6 +51,8 @@ int main ( int argc, char** argv )
     //-- 估计两张图像间运动
     Mat R,t;
     pose_estimation_2d2d ( keypoints_1, keypoints_2, matches, R, t );
+
+    std::cout << "norm of t " << cv::norm(t) << std::endl;
 
     //-- 验证E=t^R*scale
     Mat t_x = ( Mat_<double> ( 3,3 ) <<
@@ -166,8 +174,27 @@ void pose_estimation_2d2d ( std::vector<KeyPoint> keypoints_1,
     cout<<"homography_matrix is "<<endl<<homography_matrix<<endl;
 
     //-- 从本质矩阵中恢复旋转和平移信息.
-    recoverPose ( essential_matrix, points1, points2, R, t, focal_length, principal_point );
+    int inlier_num = recoverPose ( essential_matrix, points1, points2, R, t, focal_length, principal_point );
+    std::cout << "number of inliers: " << inlier_num << std::endl;
     cout<<"R is "<<endl<<R<<endl;
     cout<<"t is "<<endl<<t<<endl;
+
+    Eigen::Matrix<double, 3, 3> estimated_rotation;
+    Eigen::Vector3d estimated_position;
+
+    cv::cv2eigen(R, estimated_rotation);
+    cv::cv2eigen(t, estimated_position);
+
+    SE3 estimated_T_current_cam_previous_cam = SE3(
+        SO3(estimated_rotation), estimated_position
+    );
+
+    Sophus::Vector6d d = estimated_T_current_cam_previous_cam.log();
+    double norm = d.norm();
+
+    std::cout << "norm: " << norm << std::endl;
+    std::cout << "end" << std::endl;
+
+
     
 }
